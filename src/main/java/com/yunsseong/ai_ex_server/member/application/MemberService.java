@@ -1,11 +1,8 @@
 package com.yunsseong.ai_ex_server.member.application;
 
-import com.yunsseong.ai_ex_server.member.application.repository.MemberRepository;
-import com.yunsseong.ai_ex_server.member.domain.Email;
-import com.yunsseong.ai_ex_server.member.domain.Member;
-import com.yunsseong.ai_ex_server.member.domain.Nickname;
-import com.yunsseong.ai_ex_server.member.domain.Password;
 import com.yunsseong.ai_ex_server.member.application.dto.CreateMemberRequest;
+import com.yunsseong.ai_ex_server.member.application.repository.MemberRepository;
+import com.yunsseong.ai_ex_server.member.domain.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +10,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final MemberConvertService memberConvertService;
     
     public void createMember(CreateMemberRequest createMemberRequest) {
-        Member createdMember = Member.builder()
-                .nickname(new Nickname(createMemberRequest.nickname()))
-                .email(new Email(createMemberRequest.email()))
-                .password(new Password(createMemberRequest.password()))
-                .build();
+        Member createdMember = memberConvertService.createMemberFromCreateRequest(createMemberRequest);
         memberRepository.save(createdMember);
     }
     
