@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -17,8 +18,20 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public void save(Post post) {
-        String sql = "insert into post (title, content, user_id, created_at) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, post.title(), post.content(), post.userId(), post.createdAt());
+        String sql = "insert into post (userId, title, content, created_at) values (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, post.userId(), post.title(), post.content(), post.createdAt());
+    }
+
+    @Override
+    public void update(Post post) {
+        String sql = "update post set title = ?, content = ? where post_id = ?";
+        jdbcTemplate.update(sql, post.title(), post.content(), post.postId());
+    }
+
+    @Override
+    public List<Post> findAll() {
+        String sql = "select * from post";
+        return jdbcTemplate.query(sql, new DataClassRowMapper<>(Post.class));
     }
 
     @Override
