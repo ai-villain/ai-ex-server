@@ -28,8 +28,9 @@ public class PostService {
     }
 
     public void deletePost(DeletePostRequest request) {
-        Post foundPost = findPostById(request.postId());
-        if (foundPost.isCreatedBy(request.userId()))
-            postRepository.delete(foundPost);
+        Post foundPost = findById(request.postId());
+        if (!foundPost.isCreatedBy(request.userId()))
+            throw new IllegalArgumentException();
+        postRepository.delete(foundPost);
     }
 }

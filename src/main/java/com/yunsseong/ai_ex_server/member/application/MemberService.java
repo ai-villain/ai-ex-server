@@ -23,13 +23,13 @@ public class MemberService {
         memberRepository.save(createdMember);
     }
     
-    public Member findMemberById(Long memberId) {
+    public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
                 .orElseThrow(IllegalArgumentException::new);
     }
 
     public void deleteMember(Long memberId) {
-        Member foundMember = findMemberById(memberId);
+        Member foundMember = findById(memberId);
         memberRepository.delete(foundMember);
     }
 }
