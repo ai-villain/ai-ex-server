@@ -1,7 +1,11 @@
 package com.yunsseong.ai_ex_server.post.application;
 
+import com.yunsseong.ai_ex_server.member.application.MemberService;
+import com.yunsseong.ai_ex_server.member.domain.Member;
 import com.yunsseong.ai_ex_server.post.application.dto.CreatePostRequest;
 import com.yunsseong.ai_ex_server.post.application.dto.DeletePostRequest;
+import com.yunsseong.ai_ex_server.post.application.dto.PostResponse;
+import com.yunsseong.ai_ex_server.post.application.dto.UpdatePostRequest;
 import com.yunsseong.ai_ex_server.post.application.repository.PostRepository;
 import com.yunsseong.ai_ex_server.post.domain.Content;
 import com.yunsseong.ai_ex_server.post.domain.Post;
@@ -9,15 +13,14 @@ import com.yunsseong.ai_ex_server.post.domain.Title;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
-
-    public Post findPostById(Long postId) {
-        return postRepository.findById(postId)
-                .orElseThrow(IllegalArgumentException::new);
-    }
+    private final MemberService memberService;
+    private final PostConvertService postConvertService;
 
     public void createPost(CreatePostRequest request) {
         Post createdPost = Post.builder()
@@ -25,6 +28,33 @@ public class PostService {
                 .content(new Content(request.content()))
                 .build();
         postRepository.save(createdPost);
+    }
+
+    public void updatePost(UpdatePostRequest request) {
+        if (!findById(request.postId()).isCreatedBy(request.userId()))
+            throw new IllegalArgumentException();
+        Post updatedPost = postConvertService.createPostFromUpdateRequest(request);
+        postRepository.update(updatedPost);
+    }
+
+    public List<PostResponse> findAll() {
+        return postRepository.findAll().stream()
+                .map(post -> {
+                    Member foundMember = memberService.findById(post.userId());
+                    return postConvertService.createPostResponse(post, foundMember);
+                }).toList();
+    }
+
+    public Post findById(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public PostResponse getPost(Long postId) {
+        Post foundPost = postRepository.findById(postId)
+                .orElseThrow(IllegalArgumentException::new);
+        Member foundMember = memberService.findById(foundPost.userId());
+        return postConvertService.createPostResponse(foundPost, foundMember);
     }
 
     public void deletePost(DeletePostRequest request) {
