@@ -1,11 +1,11 @@
 package com.yunsseong.ai_ex_server.member.application;
 
+import com.yunsseong.ai_ex_server.member.application.dto.CreateMemberRequest;
 import com.yunsseong.ai_ex_server.member.application.repository.MemberRepository;
 import com.yunsseong.ai_ex_server.member.domain.Email;
 import com.yunsseong.ai_ex_server.member.domain.Member;
 import com.yunsseong.ai_ex_server.member.domain.Nickname;
 import com.yunsseong.ai_ex_server.member.domain.Password;
-import com.yunsseong.ai_ex_server.member.application.dto.CreateMemberRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,14 +18,17 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MemberServiceTest {
 
     @Mock
     private MemberRepository memberRepository;
+
+    @Mock
+    private MemberConvertService memberConvertService;
 
     @InjectMocks
     private MemberService memberService;
@@ -54,26 +57,29 @@ class MemberServiceTest {
     void createMember_WithValidRequest_ShouldCreateMember() {
         // given
         CreateMemberRequest request = new CreateMemberRequest(nicknameStr, emailStr, passwordStr);
+        Member expectedMember = Member.builder()
+                .nickname(new Nickname(nicknameStr))
+                .email(new Email(emailStr))
+                .password(new Password(passwordStr))
+                .build();
+        when(memberConvertService.createMemberFromCreateRequest(request)).thenReturn(expectedMember);
 
         // when
         memberService.createMember(request);
 
         // then
-        verify(memberRepository).save(argThat(member -> 
-            member.nickname().nickname().equals(nicknameStr) &&
-            member.email().email().equals(emailStr) &&
-            member.password().password().equals(passwordStr)
-        ));
+        verify(memberConvertService).createMemberFromCreateRequest(request);
+        verify(memberRepository).save(expectedMember);
     }
 
     @Test
     @DisplayName("존재하는 회원 ID로 회원을 조회할 수 있다")
-    void findMemberById_WithExistingId_ShouldReturnMember() {
+    void findMemberById_WithExistingId_ShouldReturn() {
         // given
         when(memberRepository.findById(userId)).thenReturn(Optional.of(testMember));
 
         // when
-        Member foundMember = memberService.findMemberById(userId);
+        Member foundMember = memberService.findById(userId);
 
         // then
         assertThat(foundMember).isEqualTo(testMember);
@@ -82,13 +88,13 @@ class MemberServiceTest {
 
     @Test
     @DisplayName("존재하지 않는 회원 ID로 조회하면 예외가 발생한다")
-    void findMemberById_WithNonExistingId_ShouldThrowException() {
+    void findById_WithNonExistingId_ShouldThrowException() {
         // given
         Long nonExistingId = 999L;
         when(memberRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
         // when & then
-        assertThatThrownBy(() -> memberService.findMemberById(nonExistingId))
+        assertThatThrownBy(() -> memberService.findById(nonExistingId))
                 .isInstanceOf(IllegalArgumentException.class);
         verify(memberRepository).findById(nonExistingId);
     }
