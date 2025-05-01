@@ -1,12 +1,26 @@
 package com.yunsseong.ai_ex_server.post.domain;
 
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PostTest {
+
+    private Validator validator;
+
+    @BeforeEach
+    void setUp() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        validator = factory.getValidator();
+    }
 
     @Test
     @DisplayName("유효한 값으로 Post 객체를 생성할 수 있다")
@@ -24,6 +38,7 @@ class PostTest {
                 .content(content)
                 .userId(userId)
                 .build();
+        Set<ConstraintViolation<Post>> violations = validator.validate(post);
 
         // then
         assertThat(post).isNotNull();
@@ -31,6 +46,7 @@ class PostTest {
         assertThat(post.title()).isEqualTo(title);
         assertThat(post.content()).isEqualTo(content);
         assertThat(post.userId()).isEqualTo(userId);
+        assertThat(violations).isEmpty();
     }
 
     @Test
@@ -42,14 +58,19 @@ class PostTest {
         Content content = new Content("내용");
         Long userId = 100L;
 
-        // when & then
-        assertThatThrownBy(() -> Post.builder()
+        // when
+        Post post = Post.builder()
                 .postId(postId)
                 .title(title)
                 .content(content)
                 .userId(userId)
-                .build())
-                .isInstanceOf(IllegalArgumentException.class);
+                .build();
+        Set<ConstraintViolation<Post>> violations = validator.validate(post);
+
+        // then
+        assertThat(violations).hasSize(1);
+        ConstraintViolation<Post> violation = violations.iterator().next();
+        assertThat(violation.getPropertyPath().toString()).isEqualTo("title");
     }
 
     @Test
@@ -61,14 +82,19 @@ class PostTest {
         Content content = null;
         Long userId = 100L;
 
-        // when & then
-        assertThatThrownBy(() -> Post.builder()
+        // when
+        Post post = Post.builder()
                 .postId(postId)
                 .title(title)
                 .content(content)
                 .userId(userId)
-                .build())
-                .isInstanceOf(IllegalArgumentException.class);
+                .build();
+        Set<ConstraintViolation<Post>> violations = validator.validate(post);
+
+        // then
+        assertThat(violations).hasSize(1);
+        ConstraintViolation<Post> violation = violations.iterator().next();
+        assertThat(violation.getPropertyPath().toString()).isEqualTo("content");
     }
 
     @Test
@@ -87,6 +113,7 @@ class PostTest {
                 .content(content)
                 .userId(userId)
                 .build();
+        Set<ConstraintViolation<Post>> violations = validator.validate(post);
 
         // then
         assertThat(post).isNotNull();
@@ -94,6 +121,7 @@ class PostTest {
         assertThat(post.title()).isEqualTo(title);
         assertThat(post.content()).isEqualTo(content);
         assertThat(post.userId()).isEqualTo(userId);
+        assertThat(violations).isEmpty();
     }
 
     @Test
@@ -112,6 +140,7 @@ class PostTest {
                 .content(content)
                 .userId(userId)
                 .build();
+        Set<ConstraintViolation<Post>> violations = validator.validate(post);
 
         // then
         assertThat(post).isNotNull();
@@ -119,5 +148,6 @@ class PostTest {
         assertThat(post.title()).isEqualTo(title);
         assertThat(post.content()).isEqualTo(content);
         assertThat(post.userId()).isNull();
+        assertThat(violations).isEmpty();
     }
 }
