@@ -1,9 +1,6 @@
 package com.yunsseong.ai_ex_server.member.domain;
 
-public record Nickname(String nickname) {
-    public Nickname {
-        if (nickname == null) {
-            throw new IllegalArgumentException();
-        }
-    }
+import jakarta.validation.constraints.NotBlank;
+
+public record Nickname(@NotBlank(message = "닉네임을 입력해주세요") String nickname) {
 }

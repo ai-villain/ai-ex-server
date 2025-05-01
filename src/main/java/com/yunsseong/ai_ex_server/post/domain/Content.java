@@ -1,12 +1,11 @@
 package com.yunsseong.ai_ex_server.post.domain;
 
-public record Content(String content) {
-    public Content {
-        if (content == null) {
-            throw new IllegalArgumentException("내용을 입력해주세요");
-        }
-        if  (content.length() > 500) {
-            throw new IllegalArgumentException("내용은 500자를 넘을 수 없습니다.");
-        }
-    }
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record Content(
+        @NotBlank(message = "본문을 입력해주세요")
+        @Size(max = 500, message = "본문은 500자를 넘을 수 없습니다.")
+        String content
+) {
 }

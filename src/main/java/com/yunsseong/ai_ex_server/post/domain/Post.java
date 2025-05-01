@@ -1,16 +1,19 @@
 package com.yunsseong.ai_ex_server.post.domain;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
 
 @Builder
-public record Post(Long postId, Long userId, Title title, Content content, LocalDateTime createdAt, LocalDateTime updatedAt) {
-    public Post {
-        if (title == null || content == null) {
-            throw new IllegalArgumentException();
-        }
-    }
+public record Post(
+        Long postId,
+        Long userId,
+        @NotNull Title title,
+        @NotNull Content content,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+) {
 
     public boolean isCreatedBy(Long userId) {
         return this.userId.equals(userId);
