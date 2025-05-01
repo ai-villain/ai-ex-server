@@ -1,5 +1,7 @@
 package com.yunsseong.ai_ex_server.post.application;
 
+import com.yunsseong.ai_ex_server.common.exception.CustomException;
+import com.yunsseong.ai_ex_server.common.exception.error_code.PostErrorCode;
 import com.yunsseong.ai_ex_server.member.application.MemberService;
 import com.yunsseong.ai_ex_server.member.domain.Member;
 import com.yunsseong.ai_ex_server.post.application.dto.CreatePostRequest;
@@ -32,7 +34,7 @@ public class PostService {
 
     public void updatePost(UpdatePostRequest request) {
         if (!findById(request.postId()).isCreatedBy(request.userId()))
-            throw new IllegalArgumentException();
+            throw new CustomException(PostErrorCode.WRITER_MISMATCH);
         Post updatedPost = postConvertService.createPostFromUpdateRequest(request);
         postRepository.update(updatedPost);
     }
@@ -47,12 +49,11 @@ public class PostService {
 
     public Post findById(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new CustomException(PostErrorCode.NOT_FOUND_POST));
     }
 
     public PostResponse getPost(Long postId) {
-        Post foundPost = postRepository.findById(postId)
-                .orElseThrow(IllegalArgumentException::new);
+        Post foundPost = findById(postId);
         Member foundMember = memberService.findById(foundPost.userId());
         return postConvertService.createPostResponse(foundPost, foundMember);
     }
@@ -60,7 +61,7 @@ public class PostService {
     public void deletePost(DeletePostRequest request) {
         Post foundPost = findById(request.postId());
         if (!foundPost.isCreatedBy(request.userId()))
-            throw new IllegalArgumentException();
+            throw new CustomException(PostErrorCode.WRITER_MISMATCH);
         postRepository.delete(foundPost);
     }
 }

@@ -1,5 +1,7 @@
 package com.yunsseong.ai_ex_server.member.application;
 
+import com.yunsseong.ai_ex_server.common.exception.CustomException;
+import com.yunsseong.ai_ex_server.common.exception.error_code.MemberErrorCode;
 import com.yunsseong.ai_ex_server.member.application.dto.CreateMemberRequest;
 import com.yunsseong.ai_ex_server.member.application.repository.MemberRepository;
 import com.yunsseong.ai_ex_server.member.domain.Member;
@@ -19,7 +21,7 @@ public class MemberService {
     
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new CustomException(MemberErrorCode.NOT_FOUND_MEMBER));
     }
 
     public void deleteMember(Long memberId) {
