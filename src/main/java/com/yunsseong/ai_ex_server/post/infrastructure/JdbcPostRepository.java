@@ -18,8 +18,8 @@ public class JdbcPostRepository implements PostRepository {
 
     @Override
     public void save(Post post) {
-        String sql = "insert into post (userId, title, content, created_at) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, post.userId(), post.title(), post.content(), post.createdAt());
+        String sql = "insert into post (member_id, title, content, created_at) values (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, post.memberId(), post.title().title(), post.content().content(), post.createdAt());
     }
 
     @Override

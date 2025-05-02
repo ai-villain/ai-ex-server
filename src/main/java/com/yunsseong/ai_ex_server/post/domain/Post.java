@@ -8,15 +8,15 @@ import java.time.LocalDateTime;
 @Builder
 public record Post(
         Long postId,
-        Long userId,
+        Long memberId,
         @NotNull Title title,
         @NotNull Content content,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
 
-    public boolean isCreatedBy(Long userId) {
-        return this.userId.equals(userId);
+    public boolean isCreatedBy(Long memberId) {
+        return this.memberId.equals(memberId);
     }
 
     public static PostBuilder builder() {

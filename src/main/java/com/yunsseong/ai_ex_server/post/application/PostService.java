@@ -26,6 +26,7 @@ public class PostService {
 
     public void createPost(CreatePostRequest request) {
         Post createdPost = Post.builder()
+                .memberId(request.memberId())
                 .title(new Title(request.title()))
                 .content(new Content(request.content()))
                 .build();
@@ -33,7 +34,7 @@ public class PostService {
     }
 
     public void updatePost(UpdatePostRequest request) {
-        if (!findById(request.postId()).isCreatedBy(request.userId()))
+        if (!findById(request.postId()).isCreatedBy(request.memberId()))
             throw new CustomException(PostErrorCode.WRITER_MISMATCH);
         Post updatedPost = postConvertService.createPostFromUpdateRequest(request);
         postRepository.update(updatedPost);
@@ -42,7 +43,7 @@ public class PostService {
     public List<PostResponse> findAll() {
         return postRepository.findAll().stream()
                 .map(post -> {
-                    Member foundMember = memberService.findById(post.userId());
+                    Member foundMember = memberService.findById(post.memberId());
                     return postConvertService.createPostResponse(post, foundMember);
                 }).toList();
     }
@@ -54,13 +55,13 @@ public class PostService {
 
     public PostResponse getPost(Long postId) {
         Post foundPost = findById(postId);
-        Member foundMember = memberService.findById(foundPost.userId());
+        Member foundMember = memberService.findById(foundPost.memberId());
         return postConvertService.createPostResponse(foundPost, foundMember);
     }
 
     public void deletePost(DeletePostRequest request) {
         Post foundPost = findById(request.postId());
-        if (!foundPost.isCreatedBy(request.userId()))
+        if (!foundPost.isCreatedBy(request.memberId()))
             throw new CustomException(PostErrorCode.WRITER_MISMATCH);
         postRepository.delete(foundPost);
     }

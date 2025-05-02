@@ -25,7 +25,7 @@ public class PostConvertService {
     public PostResponse createPostResponse(Post post, Member member) {
         return PostResponse.builder()
                 .postId(post.postId())
-                .nickname(member.nickname().toString())
+                .nickname(member.getNickname().toString())
                 .title(post.title().toString())
                 .content(post.content().toString())
                 .createdAt(post.createdAt().toString())

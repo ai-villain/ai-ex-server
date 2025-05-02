@@ -1,4 +1,7 @@
 package com.yunsseong.ai_ex_server.post.application.dto;
 
-public record CreatePostRequest(Long userId, String title, String content) {
+import lombok.Builder;
+
+@Builder
+public record CreatePostRequest(Long memberId, String title, String content) {
 }
