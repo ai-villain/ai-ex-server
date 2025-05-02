@@ -34,6 +34,14 @@ public class MemberService {
                 .orElseThrow(() -> new CustomException(MemberErrorCode.NOT_FOUND_MEMBER));
     }
 
+    public boolean isExistEmail(String email) {
+        return memberRepository.findByEmail(email).isPresent();
+    }
+
+    public boolean isExistNickname(String nickname) {
+        return memberRepository.findByNickname(nickname).isPresent();
+    }
+
     public void deleteMember(Long memberId) {
         Member foundMember = findById(memberId);
         memberRepository.delete(foundMember);
