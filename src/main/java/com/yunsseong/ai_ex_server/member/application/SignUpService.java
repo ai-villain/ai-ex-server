@@ -14,7 +14,7 @@ public class SignUpService {
     private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
 
-    public void singUp(SignUpRequest request) {
+    public void signUp(SignUpRequest request) {
         if (memberService.isExistEmail(request.email()))
             throw new BusinessException(SignUpStatusConst.ALREADY_EXIST_EMAIL);
         if (memberService.isExistNickname(request.nickname()))

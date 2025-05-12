@@ -17,8 +17,8 @@ public class SignUpController {
     private final SignUpService signUpService;
 
     @PostMapping
-    public ResponseEntity<String> singUp(@RequestBody SignUpRequest request) {
-        signUpService.singUp(request);
+    public ResponseEntity<String> signUp(@RequestBody SignUpRequest request) {
+        signUpService.signUp(request);
         return ResponseEntity.ok().build();
     }
 }
