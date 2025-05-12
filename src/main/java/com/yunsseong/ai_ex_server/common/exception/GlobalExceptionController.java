@@ -19,20 +19,20 @@ import static com.yunsseong.ai_ex_server.common.exception.error_code.CommonStatu
 public class GlobalExceptionController {
 
     @ExceptionHandler(BusinessException.class)
-    public ResponseEntity<ApiResponse<Void>> BusinessExceptionHandler(BusinessException ex) {
+    public ResponseEntity<ApiResponse<Void>> businessExceptionHandler(BusinessException ex) {
         StatusConst statusConst = ex.getStatusConst();
         return ApiResponseFactory.bizException(statusConst);
     }
 
     @ExceptionHandler(SystemException.class)
-    public ResponseEntity<ApiResponse<Void>> SystemExceptionHandler(SystemException ex) {
+    public ResponseEntity<ApiResponse<Void>> systemExceptionHandler(SystemException ex) {
         log.info("SystemException : {}", ex.getMessage());
         StatusConst statusConst = ex.getStatusConst();
         return ApiResponseFactory.sysException(statusConst);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiResponse<Map<String, String>>> MethodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ApiResponse<Map<String, String>>> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getFieldErrors().forEach(error ->
                 errors.put(error.getField(), error.getDefaultMessage()));

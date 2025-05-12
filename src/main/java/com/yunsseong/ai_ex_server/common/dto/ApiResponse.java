@@ -10,12 +10,12 @@ import static com.yunsseong.ai_ex_server.common.exception.error_code.CommonStatu
 public class ApiResponse<T> {
     private final int statusCode;
     private final String message;
-    private final T Data;
+    private final T data;
 
     private ApiResponse(Integer statusCode, String message, T data) {
         this.statusCode = statusCode;
         this.message = message;
-        this.Data = data;
+        this.data = data;
     }
 
     public static <T> ApiResponse<T> success() {
