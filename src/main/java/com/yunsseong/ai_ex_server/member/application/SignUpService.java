@@ -1,7 +1,7 @@
 package com.yunsseong.ai_ex_server.member.application;
 
-import com.yunsseong.ai_ex_server.common.exception.CustomException;
-import com.yunsseong.ai_ex_server.common.exception.error_code.SignUpErrorCode;
+import com.yunsseong.ai_ex_server.common.exception.BusinessException;
+import com.yunsseong.ai_ex_server.common.exception.error_code.SignUpStatusConst;
 import com.yunsseong.ai_ex_server.member.application.dto.CreateMemberRequest;
 import com.yunsseong.ai_ex_server.member.application.dto.SignUpRequest;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +16,11 @@ public class SignUpService {
 
     public void singUp(SignUpRequest request) {
         if (memberService.isExistEmail(request.email()))
-            throw new CustomException(SignUpErrorCode.ALREADY_EXIST_EMAIL);
+            throw new BusinessException(SignUpStatusConst.ALREADY_EXIST_EMAIL);
         if (memberService.isExistNickname(request.nickname()))
-            throw new CustomException(SignUpErrorCode.ALREADY_EXIST_NICKNAME);
+            throw new BusinessException(SignUpStatusConst.ALREADY_EXIST_NICKNAME);
         if (!request.password1().equals(request.password2()))
-            throw new CustomException(SignUpErrorCode.PASSWORDS_MISMATCH);
+            throw new BusinessException(SignUpStatusConst.PASSWORDS_MISMATCH);
 
         CreateMemberRequest createMemberRequest = CreateMemberRequest.builder()
                 .nickname(request.nickname())
