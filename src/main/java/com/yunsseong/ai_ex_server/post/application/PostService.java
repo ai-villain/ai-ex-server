@@ -20,7 +20,7 @@ import java.util.List;
 public class PostService {
     private final PostRepository postRepository;
     private final MemberService memberService;
-    private final PostConvertService postConvertService;
+    private final PostMapper postMapper;
 
     public void createPost(CreatePostRequest request) {
         Member foundMember = memberService.findById(request.memberId());
@@ -36,13 +36,13 @@ public class PostService {
     public void updatePost(UpdatePostRequest request) {
         if (!findById(request.postId()).isCreatedBy(request.memberId()))
             throw new BusinessException(PostStatusConst.WRITER_MISMATCH);
-        Post updatedPost = postConvertService.createPostFromUpdateRequest(request);
+        Post updatedPost = postMapper.toPost(request);
         postRepository.save(updatedPost);
     }
 
     public List<PostResponse> findAll() {
         return postRepository.findAll().stream()
-                .map(postConvertService::createPostResponse).toList();
+                .map(postMapper::toPostResponse).toList();
     }
 
     public Post findById(Long postId) {
@@ -52,7 +52,7 @@ public class PostService {
 
     public PostResponse getPost(Long postId) {
         Post foundPost = findById(postId);
-        return postConvertService.createPostResponse(foundPost);
+        return postMapper.toPostResponse(foundPost);
     }
 
     public void deletePost(DeletePostRequest request) {

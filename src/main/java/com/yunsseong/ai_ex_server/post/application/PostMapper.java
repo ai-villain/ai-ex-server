@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class PostConvertService {
+public class PostMapper {
 
-    public Post createPostFromUpdateRequest(UpdatePostRequest request) {
+    public Post toPost(UpdatePostRequest request) {
         return Post.builder()
                 .id(request.postId())
                 .title(request.title())
@@ -19,7 +19,7 @@ public class PostConvertService {
                 .build();
     }
 
-    public PostResponse createPostResponse(Post post) {
+    public PostResponse toPostResponse(Post post) {
         return PostResponse.builder()
                 .postId(post.getId())
                 .nickname(post.getMember().getNickname())
