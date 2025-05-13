@@ -2,6 +2,8 @@ package com.yunsseong.ai_ex_server.auth.presentation;
 
 import com.yunsseong.ai_ex_server.auth.service.SignUpService;
 import com.yunsseong.ai_ex_server.auth.dto.SignUpRequest;
+import com.yunsseong.ai_ex_server.common.dto.ApiResponse;
+import com.yunsseong.ai_ex_server.common.dto.ApiResponseFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,8 +19,8 @@ public class SignUpController {
     private final SignUpService signUpService;
 
     @PostMapping
-    public ResponseEntity<String> signUp(@RequestBody SignUpRequest request) {
+    public ResponseEntity<ApiResponse<Void>> signUp(@RequestBody SignUpRequest request) {
         signUpService.signUp(request);
-        return ResponseEntity.ok().build();
+        return ApiResponseFactory.success();
     }
 }

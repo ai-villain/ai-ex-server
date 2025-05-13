@@ -1,6 +1,8 @@
 package com.yunsseong.ai_ex_server.auth.presentation;
 
 import com.yunsseong.ai_ex_server.auth.dto.LoginRequest;
+import com.yunsseong.ai_ex_server.common.dto.ApiResponse;
+import com.yunsseong.ai_ex_server.common.dto.ApiResponseFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +26,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
 
     @PostMapping
-    public ResponseEntity<?> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
+    public ResponseEntity<ApiResponse<Void>> login(@RequestBody LoginRequest request, HttpServletRequest httpRequest) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(request.email(), request.password());
 
         Authentication authentication = authenticationManager.authenticate(token);
@@ -36,6 +38,6 @@ public class AuthController {
         HttpSession session = httpRequest.getSession(true);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
 
-        return ResponseEntity.ok("로그인 성공");
+        return ApiResponseFactory.success();
     }
 }
