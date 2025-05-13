@@ -30,9 +30,8 @@ public class PostController {
     @PostMapping
     public ResponseEntity<?> writePost(@RequestBody WritePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         Member foundMember = memberService.findByEmail(userDetails.getUsername());
-        System.out.println("foundMember.getMemberId() = " + foundMember.getMemberId());
         CreatePostRequest createPostRequest = CreatePostRequest.builder()
-                .memberId(foundMember.getMemberId())
+                .memberId(foundMember.getId())
                 .title(request.title())
                 .content(request.content())
                 .build();
