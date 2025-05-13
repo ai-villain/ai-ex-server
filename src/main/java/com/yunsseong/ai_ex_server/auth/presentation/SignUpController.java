@@ -1,7 +1,7 @@
-package com.yunsseong.ai_ex_server.member.presentation;
+package com.yunsseong.ai_ex_server.auth.presentation;
 
-import com.yunsseong.ai_ex_server.member.application.SignUpService;
-import com.yunsseong.ai_ex_server.member.application.dto.SignUpRequest;
+import com.yunsseong.ai_ex_server.auth.service.SignUpService;
+import com.yunsseong.ai_ex_server.auth.dto.SignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

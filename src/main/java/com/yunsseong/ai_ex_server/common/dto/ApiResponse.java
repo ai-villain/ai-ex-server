@@ -1,9 +1,9 @@
 package com.yunsseong.ai_ex_server.common.dto;
 
-import com.yunsseong.ai_ex_server.common.exception.error_code.StatusConst;
+import com.yunsseong.ai_ex_server.common.exception.StatusConst;
 import lombok.Getter;
 
-import static com.yunsseong.ai_ex_server.common.exception.error_code.CommonStatusCode.OK;
+import static com.yunsseong.ai_ex_server.common.exception.CommonStatusCode.OK;
 
 
 @Getter

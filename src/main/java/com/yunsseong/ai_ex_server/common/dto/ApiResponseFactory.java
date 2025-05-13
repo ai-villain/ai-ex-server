@@ -1,6 +1,6 @@
 package com.yunsseong.ai_ex_server.common.dto;
 
-import com.yunsseong.ai_ex_server.common.exception.error_code.StatusConst;
+import com.yunsseong.ai_ex_server.common.exception.StatusConst;
 import org.springframework.http.ResponseEntity;
 
 public class ApiResponseFactory {

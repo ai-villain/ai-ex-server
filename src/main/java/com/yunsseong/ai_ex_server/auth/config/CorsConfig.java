@@ -1,4 +1,4 @@
-package com.yunsseong.ai_ex_server.common.config;
+package com.yunsseong.ai_ex_server.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

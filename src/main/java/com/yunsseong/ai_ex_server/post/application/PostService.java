@@ -1,7 +1,7 @@
 package com.yunsseong.ai_ex_server.post.application;
 
 import com.yunsseong.ai_ex_server.common.exception.BusinessException;
-import com.yunsseong.ai_ex_server.common.exception.error_code.PostStatusConst;
+import com.yunsseong.ai_ex_server.post.exception.PostStatusConst;
 import com.yunsseong.ai_ex_server.member.application.MemberService;
 import com.yunsseong.ai_ex_server.member.domain.Member;
 import com.yunsseong.ai_ex_server.post.application.dto.CreatePostRequest;

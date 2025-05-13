@@ -2,7 +2,6 @@ package com.yunsseong.ai_ex_server.common.exception;
 
 import com.yunsseong.ai_ex_server.common.dto.ApiResponse;
 import com.yunsseong.ai_ex_server.common.dto.ApiResponseFactory;
-import com.yunsseong.ai_ex_server.common.exception.error_code.StatusConst;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.yunsseong.ai_ex_server.common.exception.error_code.CommonStatusCode.INVALID_INPUT_VALUE;
+import static com.yunsseong.ai_ex_server.common.exception.CommonStatusCode.INVALID_INPUT_VALUE;
 
 @Slf4j
 @RestControllerAdvice

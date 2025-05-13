@@ -1,7 +1,7 @@
 package com.yunsseong.ai_ex_server.member.application;
 
 import com.yunsseong.ai_ex_server.common.exception.BusinessException;
-import com.yunsseong.ai_ex_server.common.exception.error_code.MemberStatusConst;
+import com.yunsseong.ai_ex_server.member.exception.MemberStatusConst;
 import com.yunsseong.ai_ex_server.member.application.dto.CreateMemberRequest;
 import com.yunsseong.ai_ex_server.member.domain.Member;
 import com.yunsseong.ai_ex_server.member.infrastructure.MemberRepository;

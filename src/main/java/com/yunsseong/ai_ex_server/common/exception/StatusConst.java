@@ -1,4 +1,4 @@
-package com.yunsseong.ai_ex_server.common.exception.error_code;
+package com.yunsseong.ai_ex_server.common.exception;
 
 import org.springframework.http.HttpStatus;
 
