@@ -25,7 +25,6 @@ public class PostService {
     public void createPost(CreatePostRequest request) {
         Member foundMember = memberService.findById(request.memberId());
         Post createdPost = Post.builder()
-                .member(foundMember)
                 .title(request.title())
                 .content(request.content())
                 .build();
