@@ -1,7 +1,7 @@
 package com.yunsseong.ai_ex_server.member.application;
 
-import com.yunsseong.ai_ex_server.common.exception.CustomException;
-import com.yunsseong.ai_ex_server.common.exception.error_code.MemberErrorCode;
+import com.yunsseong.ai_ex_server.common.exception.BusinessException;
+import com.yunsseong.ai_ex_server.common.exception.error_code.MemberStatusConst;
 import com.yunsseong.ai_ex_server.member.application.dto.CreateMemberRequest;
 import com.yunsseong.ai_ex_server.member.domain.Member;
 import com.yunsseong.ai_ex_server.member.infrastructure.MemberRepository;
@@ -24,17 +24,17 @@ public class MemberService {
 
     public Member findById(Long memberId) {
         return memberRepository.findById(memberId)
-                .orElseThrow(() -> new CustomException(MemberErrorCode.NOT_FOUND_MEMBER));
+                .orElseThrow(() -> new BusinessException(MemberStatusConst.NOT_FOUND_MEMBER));
     }
 
     public Member findByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new CustomException(MemberErrorCode.NOT_FOUND_MEMBER));
+                .orElseThrow(() -> new BusinessException(MemberStatusConst.NOT_FOUND_MEMBER));
     }
 
     public Member findByNickname(String nickname) {
         return memberRepository.findByNickname(nickname)
-                .orElseThrow(() -> new CustomException(MemberErrorCode.NOT_FOUND_MEMBER));
+                .orElseThrow(() -> new BusinessException(MemberStatusConst.NOT_FOUND_MEMBER));
     }
 
     public boolean isExistEmail(String email) {

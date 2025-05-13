@@ -1,7 +1,7 @@
 package com.yunsseong.ai_ex_server.post.application;
 
-import com.yunsseong.ai_ex_server.common.exception.CustomException;
-import com.yunsseong.ai_ex_server.common.exception.error_code.PostErrorCode;
+import com.yunsseong.ai_ex_server.common.exception.BusinessException;
+import com.yunsseong.ai_ex_server.common.exception.error_code.PostStatusConst;
 import com.yunsseong.ai_ex_server.member.application.MemberService;
 import com.yunsseong.ai_ex_server.member.domain.Member;
 import com.yunsseong.ai_ex_server.post.application.dto.CreatePostRequest;
@@ -35,7 +35,7 @@ public class PostService {
 
     public void updatePost(UpdatePostRequest request) {
         if (!findById(request.postId()).isCreatedBy(request.memberId()))
-            throw new CustomException(PostErrorCode.WRITER_MISMATCH);
+            throw new BusinessException(PostStatusConst.WRITER_MISMATCH);
         Post updatedPost = postConvertService.createPostFromUpdateRequest(request);
         postRepository.save(updatedPost);
     }
@@ -47,7 +47,7 @@ public class PostService {
 
     public Post findById(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new CustomException(PostErrorCode.NOT_FOUND_POST));
+                .orElseThrow(() -> new BusinessException(PostStatusConst.NOT_FOUND_POST));
     }
 
     public PostResponse getPost(Long postId) {
@@ -58,7 +58,7 @@ public class PostService {
     public void deletePost(DeletePostRequest request) {
         Post foundPost = findById(request.postId());
         if (!foundPost.isCreatedBy(request.memberId()))
-            throw new CustomException(PostErrorCode.WRITER_MISMATCH);
+            throw new BusinessException(PostStatusConst.WRITER_MISMATCH);
         postRepository.delete(foundPost);
     }
 }
