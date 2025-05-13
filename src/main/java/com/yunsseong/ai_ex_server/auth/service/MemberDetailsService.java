@@ -1,5 +1,6 @@
-package com.yunsseong.ai_ex_server.member.application;
+package com.yunsseong.ai_ex_server.auth.service;
 
+import com.yunsseong.ai_ex_server.member.application.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

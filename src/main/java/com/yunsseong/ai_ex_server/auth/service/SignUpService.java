@@ -1,9 +1,10 @@
-package com.yunsseong.ai_ex_server.member.application;
+package com.yunsseong.ai_ex_server.auth.service;
 
 import com.yunsseong.ai_ex_server.common.exception.BusinessException;
-import com.yunsseong.ai_ex_server.common.exception.error_code.SignUpStatusConst;
+import com.yunsseong.ai_ex_server.auth.exception.SignUpStatusConst;
+import com.yunsseong.ai_ex_server.member.application.MemberService;
 import com.yunsseong.ai_ex_server.member.application.dto.CreateMemberRequest;
-import com.yunsseong.ai_ex_server.member.application.dto.SignUpRequest;
+import com.yunsseong.ai_ex_server.auth.dto.SignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

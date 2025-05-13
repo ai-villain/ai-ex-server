@@ -1,5 +1,7 @@
 package com.yunsseong.ai_ex_server.post.presentation;
 
+import com.yunsseong.ai_ex_server.common.dto.ApiResponse;
+import com.yunsseong.ai_ex_server.common.dto.ApiResponseFactory;
 import com.yunsseong.ai_ex_server.member.application.MemberService;
 import com.yunsseong.ai_ex_server.member.domain.Member;
 import com.yunsseong.ai_ex_server.post.application.PostService;
@@ -23,20 +25,19 @@ public class PostController {
     private final MemberService memberService;
 
     @GetMapping
-    public ResponseEntity<List<PostResponse>> getPosts() {
-        return ResponseEntity.ok(postService.findAll());
+    public ResponseEntity<ApiResponse<List<PostResponse>>> getPosts() {
+        return ApiResponseFactory.success(postService.findAll());
     }
 
     @PostMapping
-    public ResponseEntity<?> writePost(@RequestBody WritePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<ApiResponse<Void>> writePost(@RequestBody WritePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
         Member foundMember = memberService.findByEmail(userDetails.getUsername());
-        System.out.println("foundMember.getMemberId() = " + foundMember.getMemberId());
         CreatePostRequest createPostRequest = CreatePostRequest.builder()
-                .memberId(foundMember.getMemberId())
+                .memberId(foundMember.getId())
                 .title(request.title())
                 .content(request.content())
                 .build();
         postService.createPost(createPostRequest);
-        return ResponseEntity.ok().build();
+        return ApiResponseFactory.success();
     }
 }

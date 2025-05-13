@@ -1,22 +1,44 @@
 package com.yunsseong.ai_ex_server.post.domain;
 
+import com.yunsseong.ai_ex_server.member.domain.Member;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import lombok.Builder;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public record Post(
-        Long postId,
-        Long memberId,
-        @NotNull Title title,
-        @NotNull Content content,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt
-) {
+public class Post {
+
+    @Id
+    @Column(name = "post_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Setter
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @NotNull
+    @Size(max = 100)
+    private String title;
+
+    @NotNull
+    @Size(max = 500)
+    private String content;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     public boolean isCreatedBy(Long memberId) {
-        return this.memberId.equals(memberId);
+        return this.member.equals(memberId);
     }
 
     public static PostBuilder builder() {

@@ -1,5 +1,6 @@
-package com.yunsseong.ai_ex_server.common.exception.error_code;
+package com.yunsseong.ai_ex_server.member.exception;
 
+import com.yunsseong.ai_ex_server.common.exception.StatusConst;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

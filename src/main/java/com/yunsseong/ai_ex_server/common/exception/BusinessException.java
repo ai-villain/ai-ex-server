@@ -1,6 +1,5 @@
 package com.yunsseong.ai_ex_server.common.exception;
 
-import com.yunsseong.ai_ex_server.common.exception.error_code.StatusConst;
 import lombok.Getter;
 
 @Getter

@@ -1,4 +1,4 @@
-package com.yunsseong.ai_ex_server.common.config;
+package com.yunsseong.ai_ex_server.auth.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,6 +27,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/v1/auth/login",
                                 "/api/v1/sign-up",
+                                "/api/v1/posts/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html"
