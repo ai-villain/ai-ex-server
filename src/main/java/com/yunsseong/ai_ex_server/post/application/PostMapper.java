@@ -1,7 +1,7 @@
 package com.yunsseong.ai_ex_server.post.application;
 
-import com.yunsseong.ai_ex_server.post.application.dto.PostResponse;
-import com.yunsseong.ai_ex_server.post.application.dto.UpdatePostRequest;
+import com.yunsseong.ai_ex_server.post.dto.PostResponse;
+import com.yunsseong.ai_ex_server.post.dto.UpdatePostRequest;
 import com.yunsseong.ai_ex_server.post.domain.Post;
 import org.springframework.stereotype.Service;
 

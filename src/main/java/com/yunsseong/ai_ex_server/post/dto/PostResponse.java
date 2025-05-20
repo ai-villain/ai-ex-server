@@ -1,4 +1,4 @@
-package com.yunsseong.ai_ex_server.post.application.dto;
+package com.yunsseong.ai_ex_server.post.dto;
 
 import lombok.Builder;
 
