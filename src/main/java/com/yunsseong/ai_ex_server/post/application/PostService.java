@@ -1,15 +1,15 @@
 package com.yunsseong.ai_ex_server.post.application;
 
 import com.yunsseong.ai_ex_server.common.exception.BusinessException;
-import com.yunsseong.ai_ex_server.post.exception.PostStatusConst;
 import com.yunsseong.ai_ex_server.member.application.MemberService;
 import com.yunsseong.ai_ex_server.member.domain.Member;
-import com.yunsseong.ai_ex_server.post.application.dto.CreatePostRequest;
-import com.yunsseong.ai_ex_server.post.application.dto.DeletePostRequest;
-import com.yunsseong.ai_ex_server.post.application.dto.PostResponse;
-import com.yunsseong.ai_ex_server.post.application.dto.UpdatePostRequest;
+import com.yunsseong.ai_ex_server.post.dto.DeletePostRequest;
+import com.yunsseong.ai_ex_server.post.dto.PostResponse;
+import com.yunsseong.ai_ex_server.post.dto.UpdatePostRequest;
 import com.yunsseong.ai_ex_server.post.domain.Post;
+import com.yunsseong.ai_ex_server.post.exception.PostStatusConst;
 import com.yunsseong.ai_ex_server.post.infrastructure.PostRepository;
+import com.yunsseong.ai_ex_server.post.dto.CreatePostRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +22,8 @@ public class PostService {
     private final MemberService memberService;
     private final PostMapper postMapper;
 
-    public void createPost(CreatePostRequest request) {
-        Member foundMember = memberService.findById(request.memberId());
+    public void createPost(CreatePostRequest request, Long memberId) {
+        Member foundMember = memberService.findById(memberId);
         Post createdPost = Post.builder()
                 .title(request.title())
                 .content(request.content())

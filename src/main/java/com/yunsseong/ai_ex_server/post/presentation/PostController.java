@@ -30,14 +30,8 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<Void>> writePost(@RequestBody WritePostRequest request, @AuthenticationPrincipal UserDetails userDetails) {
-        Member foundMember = memberService.findByEmail(userDetails.getUsername());
-        CreatePostRequest createPostRequest = CreatePostRequest.builder()
-                .memberId(foundMember.getId())
-                .title(request.title())
-                .content(request.content())
-                .build();
-        postService.createPost(createPostRequest);
+    public ResponseEntity<ApiResponse<Void>> writePost(@RequestBody CreatePostRequest request, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        postService.createPost(request, userDetails.getMemberId());
         return ApiResponseFactory.success();
     }
 }
