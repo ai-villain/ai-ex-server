@@ -7,6 +7,7 @@ import com.yunsseong.ai_ex_server.post.domain.PostLike;
 import com.yunsseong.ai_ex_server.post.infrastructure.PostLikeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -18,6 +19,7 @@ public class PostLikeService {
     private final PostService postService;
     private final MemberService memberService;
 
+    @Transactional
     public boolean likePost(Long postId, Long memberId) {
         Post foundPost = postService.findById(postId);
         Member foundMember = memberService.findById(memberId);
@@ -39,6 +41,7 @@ public class PostLikeService {
         return true;
     }
 
+    @Transactional
     public Long likeCount(Long postId) {
         Post foundPost = postService.findById(postId);
         return foundPost.getLikeCount();

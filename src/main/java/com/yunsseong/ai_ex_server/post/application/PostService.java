@@ -3,15 +3,16 @@ package com.yunsseong.ai_ex_server.post.application;
 import com.yunsseong.ai_ex_server.common.exception.BusinessException;
 import com.yunsseong.ai_ex_server.member.application.MemberService;
 import com.yunsseong.ai_ex_server.member.domain.Member;
+import com.yunsseong.ai_ex_server.post.domain.Post;
+import com.yunsseong.ai_ex_server.post.dto.CreatePostRequest;
 import com.yunsseong.ai_ex_server.post.dto.DeletePostRequest;
 import com.yunsseong.ai_ex_server.post.dto.PostResponse;
 import com.yunsseong.ai_ex_server.post.dto.UpdatePostRequest;
-import com.yunsseong.ai_ex_server.post.domain.Post;
 import com.yunsseong.ai_ex_server.post.exception.PostStatusConst;
 import com.yunsseong.ai_ex_server.post.infrastructure.PostRepository;
-import com.yunsseong.ai_ex_server.post.dto.CreatePostRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class PostService {
     private final MemberService memberService;
     private final PostMapper postMapper;
 
+    @Transactional
     public void createPost(CreatePostRequest request, Long memberId) {
         Member foundMember = memberService.findById(memberId);
         Post createdPost = Post.builder()
@@ -32,6 +34,7 @@ public class PostService {
         postRepository.save(createdPost);
     }
 
+    @Transactional
     public void updatePost(UpdatePostRequest request) {
         if (!findById(request.postId()).isCreatedBy(request.memberId()))
             throw new BusinessException(PostStatusConst.WRITER_MISMATCH);
@@ -39,21 +42,25 @@ public class PostService {
         postRepository.save(updatedPost);
     }
 
+    @Transactional
     public List<PostResponse> findAll() {
         return postRepository.findAll().stream()
                 .map(postMapper::toPostResponse).toList();
     }
 
+    @Transactional(readOnly = true)
     public Post findById(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(PostStatusConst.NOT_FOUND_POST));
     }
 
+    @Transactional(readOnly = true)
     public PostResponse getPost(Long postId) {
         Post foundPost = findById(postId);
         return postMapper.toPostResponse(foundPost);
     }
 
+    @Transactional
     public void deletePost(DeletePostRequest request) {
         Post foundPost = findById(request.postId());
         if (!foundPost.isCreatedBy(request.memberId()))
