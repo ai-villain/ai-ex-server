@@ -33,7 +33,7 @@ public class Post {
     @Size(max = 500)
     private String content;
 
-    private Long likeCount;
+    private Long likeCount = 0L;
 
     private LocalDateTime createdAt;
 
