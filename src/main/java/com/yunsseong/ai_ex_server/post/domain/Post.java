@@ -33,6 +33,8 @@ public class Post {
     @Size(max = 500)
     private String content;
 
+    private Long likeCount;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -45,5 +47,13 @@ public class Post {
         return new PostBuilder()
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now());
+    }
+
+    public void increaseLikeCount() {
+        this.likeCount++;
+    }
+
+    public void decreaseLikeCount() {
+        this.likeCount--;
     }
 }

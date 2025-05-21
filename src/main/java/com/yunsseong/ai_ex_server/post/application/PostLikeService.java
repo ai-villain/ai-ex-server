@@ -25,6 +25,7 @@ public class PostLikeService {
 
         if (foundLike.isPresent()) {
             postLikeRepository.delete(foundLike.get());
+            foundPost.decreaseLikeCount();
             return false;
         }
 
@@ -34,11 +35,12 @@ public class PostLikeService {
                 .member(foundMember)
                 .build()
         );
+        foundPost.increaseLikeCount();
         return true;
     }
 
     public Long likeCount(Long postId) {
         Post foundPost = postService.findById(postId);
-        return postLikeRepository.findByPost(foundPost).stream().count();
+        return foundPost.getLikeCount();
     }
 }
