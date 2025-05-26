@@ -45,6 +45,7 @@ public class Post {
 
     public static PostBuilder builder() {
         return new PostBuilder()
+                .likeCount(0L)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now());
     }
