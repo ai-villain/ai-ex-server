@@ -13,7 +13,8 @@ public enum PostStatusConst implements StatusConst {
     EXCEED_TITLE_LENGTH_LIMIT(4103, "제목은 100자를 넘을 수 없습니다.", HttpStatus.BAD_REQUEST),
     EXCEED_CONTENT_LENGTH_LIMIT(4104, "본문은 500자를 넘을 수 없습니다.", HttpStatus.BAD_REQUEST),
     NOT_FOUND_POST(4105, "글을 찾을 수 없습니다", HttpStatus.BAD_REQUEST),
-    WRITER_MISMATCH(4106, "글 작성자가 아닙니다.", HttpStatus.BAD_REQUEST);
+    WRITER_MISMATCH(4106, "글 작성자가 아닙니다.", HttpStatus.BAD_REQUEST),
+    NOT_FOUND_POST_LIKE(4107, "해당 조건에 맞는 좋아요를 찾을 수 없습니다.", HttpStatus.BAD_REQUEST);
 
     private final int statusCode;
     private final String message;
