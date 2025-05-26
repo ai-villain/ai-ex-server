@@ -5,10 +5,10 @@ import com.yunsseong.ai_ex_server.common.dto.ApiResponseFactory;
 import com.yunsseong.ai_ex_server.member.domain.CustomUserDetails;
 import com.yunsseong.ai_ex_server.post.application.PostLikeService;
 import com.yunsseong.ai_ex_server.post.application.PostService;
+import com.yunsseong.ai_ex_server.post.dto.CreatePostRequest;
 import com.yunsseong.ai_ex_server.post.dto.LikeCountResponse;
 import com.yunsseong.ai_ex_server.post.dto.LikeResponse;
 import com.yunsseong.ai_ex_server.post.dto.PostResponse;
-import com.yunsseong.ai_ex_server.post.dto.CreatePostRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -42,7 +42,12 @@ public class PostController {
 
     @PostMapping("/{postId}/like")
     public ResponseEntity<ApiResponse<LikeResponse>> likePost(@PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails) {
-        return ApiResponseFactory.success(new LikeResponse(postLikeService.likePost(postId, userDetails.getMemberId())));
+        return ApiResponseFactory.success(postLikeService.likePost(postId, userDetails.getMemberId()));
+    }
+
+    @DeleteMapping("/{postId}/like")
+    public ResponseEntity<ApiResponse<LikeResponse>> deleteLikePost(@PathVariable Long postId, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        return ApiResponseFactory.success(postLikeService.deleteLikePost(postId, userDetails.getMemberId()));
     }
 
     @GetMapping("/{postId}/like")

@@ -18,6 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
     private final PostRepository postRepository;
     private final MemberService memberService;
@@ -42,19 +43,16 @@ public class PostService {
         postRepository.save(updatedPost);
     }
 
-    @Transactional
     public List<PostResponse> findAll() {
         return postRepository.findAll().stream()
                 .map(postMapper::toPostResponse).toList();
     }
 
-    @Transactional(readOnly = true)
     public Post findById(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new BusinessException(PostStatusConst.NOT_FOUND_POST));
     }
 
-    @Transactional(readOnly = true)
     public PostResponse getPost(Long postId) {
         Post foundPost = findById(postId);
         return postMapper.toPostResponse(foundPost);
